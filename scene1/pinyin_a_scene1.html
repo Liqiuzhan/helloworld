@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CreateJS export from pinyin_a_scene1.fla</title>
+
+<script src="libs/easeljs-0.4.2.min.js"></script>
+<script src="libs/tweenjs-0.2.0.min.js"></script>
+<script src="libs/movieclip-0.4.1.min.js"></script>
+<script src="libs/preloadjs-0.1.0.min.js"></script>
+<script src="libs/soundjs-0.2.0.min.js"></script>
+<script src="pinyin_a_scene1.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+
+	var manifest = [
+		{src:"sounds/a_4tones.mp3", id:"a_4tones"},
+		{src:"sounds/vowel_a.mp3", id:"vowel_a"},
+		{src:"sounds/nextpage.mp3", id:"nextpage"}
+	];
+
+	var loader = new PreloadJS(false);
+	loader.installPlugin(SoundJS);
+	loader.onComplete = handleComplete;
+	loader.loadManifest(manifest);
+}
+
+function handleComplete() {
+	exportRoot = new lib.pinyin_a_scene1();
+
+	stage = new Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+	Touch.enable(stage);
+
+	exportRoot.instance_5.onClick = click_on_next;
+
+	Ticker.setFPS(30);
+	Ticker.addListener(stage);
+}
+
+function click_on_next(evt){
+	playSound("nextpage",0);
+	window.location = "..";
+}
+
+function playSound(name, loop) {
+	SoundJS.play(name, SoundJS.INTERRUPT_EARLY, 0, 0, loop);
+}
+</script>
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4">
+	<canvas id="canvas" width="800" height="600" style="background-color:#ff9933"></canvas>
+</body>
+</html>
